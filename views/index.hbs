@@ -6,12 +6,14 @@
   <a href="/signup">Register</a>
 </div>
 
-<div class="container">
-  <label for="username"><b>Username</b></label>
-  <input type="username" placeholder="Enter Username" name="uname" required>
-
-  <label for="psw"><b>Password</b></label>
-  <input type="password" placeholder="Enter Password" name="psw" required>
-
-  <button type="submit" class="loginbtn">Login</button>
-</div>
+<form action="/users/signup" method="post">
+    <div class="form-group">
+        <label for="email">E-Mail</label>
+        <input type="text" id="email" name="email" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" class="form-control">
+    </div>
+    <button type="submit">Sign Up</button>
+</form>
