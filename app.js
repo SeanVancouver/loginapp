@@ -4,32 +4,19 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var session = require('express-session');
 var logger = require('morgan');
+var passport = require('passport');
+var flash = require('connect-flash');
 // var mongoc = require('./db/connect');
-
+var MongoStore = require('connect-mongo')(session);
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-var Userf = require('./models/userModel');
-
 var app = express();
 
-// mongoose.connect('mongodb://localhost:27017/loginappdb');
-
-mongoose.connect('mongodb://localhost:27017/loginappdb').then(
-  () => {
-          var userf = new Userf({
-            email: 'mongoosemeail@gmail.com',
-            username: 'unamae2f',
-            password: 'fasdfdsfsdf'
-        });
-        userf.save(function(err, result) {
-          console.log(err + 'saved sucess' + result);
-
-        });
-      },
-  err => { console.log('mongoose failed'); }
-);
+mongoose.connect('mongodb://localhost:27017/loginappdb');
+require('./config/passport');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -42,6 +29,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+  secret: 'mysupersecret',
+  resave: false,
+  saveUninitialized: false,
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  cookie: { maxAge: 180 * 60 * 1000 }
+}));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(function(req, res, next) {
+    // res.locals.login = req.isAuthenticated();
+    res.locals.session = req.session;
+    next();
+});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
