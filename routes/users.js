@@ -15,6 +15,7 @@ router.post('/signup', passport.authenticate('local.signup', {
 router.post('/login', passport.authenticate('local.signin', {
     failureRedirect: '/user/',
 }), function (req, res, next) {
+  res.cookie('cookieName', req.session.passport.user);
       res.redirect('/profile');
 });
 

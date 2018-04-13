@@ -15,7 +15,8 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-mongoose.connect('mongodb://localhost:27017/loginappdb');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/loginappdb');
+
 require('./config/passport');
 
 // view engine setup
@@ -35,8 +36,15 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  cookie: { maxAge: 180 * 60 * 1000 }
+  cookie: { secure: true, maxAge: 180 * 60 * 1000 }
 }));
+
+// app.use(session({
+//   secret: 'keyboard cat',
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: { secure: true, maxAge: 180 * 60 * 1000 }
+// }));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
