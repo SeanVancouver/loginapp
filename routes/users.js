@@ -11,12 +11,17 @@ router.post('/signup', passport.authenticate('local.signup', {
       res.redirect('../../');
 });
 
-
 router.post('/login', passport.authenticate('local.signin', {
-    failureRedirect: '/user/',
+    failureRedirect: '../',
+    failureFlash: true
 }), function (req, res, next) {
-  res.cookie('cookieName', req.session.passport.user);
-      res.redirect('/profile');
+    res.redirect('/profile');
+});
+
+router.get('/logout', function (req, res, next) {
+    req.logout();
+    console.log('Testingg logout: ' + req.isAuthenticated());
+    res.redirect('../');
 });
 
 module.exports = router;

@@ -43,6 +43,23 @@ passport.use('local.signup', new LocalStrategy({
   }
 ));
 
+
+// passport.use('local.signin', new LocalStrategy({
+//     usernameField: 'email',
+//     passwordField: 'password',
+//     passReqToCallback: true
+// }, function(req, email, password, done) {
+//     req.checkBody('email', 'Invalid email').notEmpty().isEmail();
+//     req.checkBody('password', 'Invalid password').notEmpty();
+//     var errors = req.validationErrors();
+//     if (errors) {
+//         var messages = [];
+//         errors.forEach(function(error) {
+//             messages.push(error.msg);
+//         });
+//         return done(null, false, req.flash('error', messages));
+//     }
+
 passport.use('local.signin', new LocalStrategy({
       usernameField: 'email',
       passwordField: 'password',
@@ -54,7 +71,8 @@ passport.use('local.signin', new LocalStrategy({
           }
           if (!user) {
               console.log('no user found...');
-              return done(err);
+              // return done(err);
+              return done(null, false, {message: 'No user found.'});
           }
           if (user.password!==password) {
               console.log('wrong pw...');
