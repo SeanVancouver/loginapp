@@ -13,9 +13,10 @@ router.post('/signup', passport.authenticate('local.signup', {
 
 router.post('/login', passport.authenticate('local.signin', {
     failureRedirect: '../',
-    failureFlash: true
+    // failureFlash: true
 }), function (req, res, next) {
     res.redirect('/profile');
+
 });
 
 router.get('/logout', function (req, res, next) {
