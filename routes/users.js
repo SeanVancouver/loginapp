@@ -3,6 +3,7 @@ var router = express.Router();
 var passport = require('passport');
 var User = require('../models/userModel');
 
+
 router.post('/signup', passport.authenticate('local.signup', {
     session: false,
     failureRedirect: '/'
@@ -27,8 +28,16 @@ router.get('/logout', function (req, res, next) {
 });
 
 router.post('/edit', function (req, res, next) {
-        console.log('EEEEeeedit reached ' + req.body);
-        res.redirect('/profile');
+    let loggedUser = req.app.locals.user;
+    let reqBody = req.body;
+
+    User.findByIdAndUpdate(loggedUser.id, { $set: { description: reqBody.description }}, { new: true }, function (err, user) {
+      if (err) return handleError(err);
+      // res.send(user);
+      console.log(user);
+    });
+    // console.log('EEEEeeedit reached ' + JSON.stringify(req.body));
+    res.redirect('/profile');
   });
 
 module.exports = router;
