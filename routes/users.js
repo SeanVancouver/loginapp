@@ -15,8 +15,9 @@ router.post('/login', passport.authenticate('local.signin', {
     failureRedirect: '../',
     // failureFlash: true
 }), function (req, res, next) {
-    res.redirect('/profile');
 
+    req.app.locals.user = req.user;
+    res.redirect('/profile');
 });
 
 router.get('/logout', function (req, res, next) {
@@ -24,5 +25,10 @@ router.get('/logout', function (req, res, next) {
     console.log('Testingg logout: ' + req.isAuthenticated());
     res.redirect('../');
 });
+
+router.post('/edit', function (req, res, next) {
+        console.log('EEEEeeedit reached ' + req.body);
+        res.redirect('/profile');
+  });
 
 module.exports = router;

@@ -10,15 +10,11 @@
     </li>
   </ul>
 
-  <ul>
-    {{# if login }}
-        <li><a href="/users/profile">User Account</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="/users/logout">Logout</a></li>
-    {{ else }}
-        <li><a href="/user/signup">Sign up</a></li>
-        <li><a href="/user/signin">Sign in</a></li>
-    {{/if}}
-  </ul>
+  {{# if login }}
+      <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
+      <li class="nav-item"><a class="nav-link" href="/userlist">User lists</a></li>
+      <li class="nav-item"><a class="nav-link" href="/users/logout">Logout</a></li>
+      <li class="nav-item"><a class="nav-link" href="/edit">Edit Profile</a></li>
+  {{/if}}
 
 </nav>

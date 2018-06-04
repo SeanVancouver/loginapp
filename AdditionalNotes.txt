@@ -1,0 +1,1 @@
+May 31 - routes/index.js does not mask the user ID in url. A way to hide this?

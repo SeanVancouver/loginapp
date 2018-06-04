@@ -48,9 +48,10 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
+    // res.locals.user = req;
     res.locals.login = req.isAuthenticated();
     res.locals.session = req.session;
-    console.log('Checking login variable: ' + res.locals.login );
+    console.log('Checking login variable: ' + req );
     next();
 });
 

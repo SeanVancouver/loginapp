@@ -1,0 +1,18 @@
+<h2>Welcome to {{title}}</h2>
+
+{{# each users }}
+    <div class="row">
+        {{# each this }}
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <div class="clearfix">
+                            <div class="price pull-left">${{ this.username }}</div>
+                            <a href="/profile/{{this._id}}" class="btn btn-success pull-right" role="button">View profile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+{{/each}}
