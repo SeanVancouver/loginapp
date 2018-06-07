@@ -8,8 +8,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/profile', isLoggedIn, function(req, res, next) {
             let user = req.user;
-            let username = user.username;
-            res.render('profile', { username: username });
+            res.render('profile', { username: user.username, description: user.description });
         });
 
 router.get('/signup', function(req, res, next) {
@@ -39,14 +38,13 @@ router.get('/profile/:id', isLoggedIn, function(req, res, next) {
        if (err) {
            console.log(err);
        }
-        let username = profile.username;
-        res.render('profile', { username: username });
+        res.render('profile', { username: profile.username, description: profile.description });
     });
 });
 
 router.get('/edit', isLoggedIn, function (req, res, next) {
     let profile = req.app.locals.user;
-    res.render('editprofile', {title: 'Edit profile', username: profile.username });
+    res.render('editprofile', {title: 'Edit profile', username: profile.username});
 });
 
 module.exports = router;
