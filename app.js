@@ -1,20 +1,26 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var expressHbs = require('express-handlebars');
-var mongoose = require('mongoose');
-var session = require('express-session');
-var logger = require('morgan');
-var passport = require('passport');
-var flash = require('connect-flash');
-var validator = require('express-validator');
-var MongoStore = require('connect-mongo')(session);
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const createError = require('http-errors');
+const express = require('express');
+const socketIO = require('socket.io');
+const path = require('path');
+const http = require('http');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const expressHbs = require('express-handlebars');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const logger = require('morgan');
+const passport = require('passport');
+const flash = require('connect-flash');
+const validator = require('express-validator');
+const MongoStore = require('connect-mongo')(session);
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const chatRouter = require('./routes/chat');
+
 
 var app = express();
+var server = http.createServer(app);
+var io = socketIO(server);
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/loginappdb');
 
@@ -51,16 +57,20 @@ app.use(function(req, res, next) {
     // res.locals.user = req;
     res.locals.login = req.isAuthenticated();
     res.locals.session = req.session;
-    console.log('Checking login variable: ' + req );
     next();
 });
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/chat', chatRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
+});
+
+io.on('connection', (socket) => {
+  console.log('New user connected');
 });
 
 // error handler

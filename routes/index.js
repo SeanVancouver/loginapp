@@ -8,6 +8,9 @@ router.get('/', function(req, res, next) {
 
 router.get('/profile', isLoggedIn, function(req, res, next) {
             let user = req.user;
+
+      	    // console.log('CCCCCCChat reached ' + JSON.stringify(user.toString()));
+
             res.render('profile', { username: user.username, description: user.description });
         });
 
@@ -38,7 +41,7 @@ router.get('/profile/:id', isLoggedIn, function(req, res, next) {
        if (err) {
            console.log(err);
        }
-        res.render('profile', { username: profile.username, description: profile.description });
+        res.render('profile', { username: profile.username, description: profile.description, userid: profileId});
     });
 });
 

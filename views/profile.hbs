@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Profile page</title>
-  </head>
-  <body>
-    <h1>Logged in!</h1>
-    <h2>hi {{ username }}</h2>
-    <h3> {{description}} </h3>
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <title>Profile page</title>
+</head>
+
+<body>
+  <h1>Logged in!</h1>
+  <h2>hi {{ username }}</h2>
+  <h3> {{description}} </h3>
+
+  <a href="/chat/{{userid}}/chat" class="btn btn-success pull-right" role="button">Chat</a>
+
+
+</body>
+
 </html>
